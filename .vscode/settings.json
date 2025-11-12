@@ -1,0 +1,8 @@
+{
+  "cmake.ignoreCMakeListsMissing": true,
+  "files.associations": {
+    "ostream": "cpp",
+    "random": "cpp",
+    "*.old": "cpp"
+  }
+}
