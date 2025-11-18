@@ -1,0 +1,61 @@
+name: 🚀 Deploy Docs to Github pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Grant permissions for the deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🛠️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # A modern, stable LTS version
+
+      - name: 📦 Install and Prepare Assets
+        run: |
+          mkdir -p dist/ffmpeg
+          mkdir -p dist/ffmpeg-util
+
+          # 1. Install ffmpeg-wasm
+          cd docs
+          npm install
+
+          # 2. Prepare the distribution folder
+          mkdir -p dist
+          cp index.html dist/
+          # cp style.css dist/
+          cp *.js dist/
+          cp ../README.md dist/
+
+          # 3. Manually copy the ffmpeg-wasm core files from node_modules/ 
+          cp node_modules/@ffmpeg/ffmpeg/dist/esm/* dist/ffmpeg/
+          cp node_modules/@ffmpeg/util/dist/esm/* dist/ffmpeg-util/
+
+      - name: 📤 Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'docs/dist'
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: 🚀 Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
