@@ -26,9 +26,6 @@ jobs:
 
       - name: 📦 Install and Prepare Assets
         run: |
-          mkdir -p dist/ffmpeg
-          mkdir -p dist/ffmpeg-util
-
           # 1. Install ffmpeg-wasm
           cd docs
           npm install
@@ -40,7 +37,9 @@ jobs:
           cp *.js dist/
           cp ../README.md dist/
 
-          # 3. Manually copy the ffmpeg-wasm core files from node_modules/ 
+          # 3. Manually copy the ffmpeg-wasm core files from node_modules/
+          mkdir -p dist/ffmpeg
+          mkdir -p dist/ffmpeg-util
           cp node_modules/@ffmpeg/ffmpeg/dist/esm/* dist/ffmpeg/
           cp node_modules/@ffmpeg/util/dist/esm/* dist/ffmpeg-util/
 
