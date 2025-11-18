@@ -7,3 +7,4 @@ It can play MJPEG AVI files from an SD card, or stream video content from a comp
 ## References
 - This project is relying heavily on https://github.com/atomic14/esp32-tv and associated [blog](http://www.atomic14.com) and [videos](https://www.youtube.com/atomic14)
 - Also https://github.com/moononournation/MiniTV
+- The web UI uses the VCR OSD Mono font by Riciery Leal
