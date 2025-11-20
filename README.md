@@ -51,7 +51,7 @@ Solder the 6 pin header to the SD breakout board. Trim the pins underneath.
 
 The ESP32 dev board comes with a cable that breaks out some IO. We need to cut some of the wires to save room, and use the rest to connect the SD card reader.
 
-Separate the lines that we'll keep from the ones we'll need according to the table below, triple check everything and cut the unused wires flush against the connector. You can change the suggested wiring if you update the `platformio.ini` file accordingly, but these are the default.
+Separate the lines that we'll keep from the ones we'll cut according to the table below, triple check everything and cut the unused wires flush against the connector. You can change the suggested wiring if you update the `platformio.ini` file accordingly, but these are the default.
 
 | Keep | Description | Cut |
 | -- | -- | -- |
@@ -91,7 +91,7 @@ Then wrap a bit of electrical tape around the male pins in order to create a mak
 
 This project is built with [PlatformIO](https://platformio.org/). You can use the PlatformIO extension for VSCode or the command line interface.
 
-To build the project and flash it to the device, connect the ESP32-S3 board via USB-C and run:
+To build the project and flash it to the device, connect the ESP32-S3 board via USB and run:
 
 ```bash
 platformio run --target upload
@@ -105,7 +105,7 @@ Once the initial firmware is flashed, you can perform subsequent updates over th
 platformio run
 ```
 
-Then, navigate to the device's web UI, go to the "System" tab, and upload the `firmware.bin` file located in the `.pio/build/esp32-s3-devkitc-1/` directory of the project.
+Then, navigate to the device's web UI, go to the "Firmware" tab, and upload the `firmware.bin` file located in the `.pio/build/esp32-s3-devkitc-1/` directory of the project.
 
 ## Preparing video files
 
