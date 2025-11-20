@@ -120,7 +120,7 @@ For much faster conversion, the `ffmpeg` command line tool is recommended.
 *TODO: add detailed command line*
 
 ## Credits and references
-- This project is relying heavily on [exp32-tv by atomic14](https://github.com/atomic14/esp32-tv) and the related [blog](http://www.atomic14.com) and [videos](https://www.youtube.com/atomic14). Many thanks !
+- This project is relying heavily on [esp32-tv by atomic14](https://github.com/atomic14/esp32-tv) and the related [blog](http://www.atomic14.com) and [videos](https://www.youtube.com/atomic14). Many thanks !
 - Another great source was [moononournation's MiniTV](https://github.com/moononournation/MiniTV).
 - The [Waveshare wiki page](https://www.waveshare.com/wiki/ESP32-S3-LCD-1.69) and provideed examples were extremyly useful.
 - The web UI uses the VCR OSD Mono font by Riciery Leal.
