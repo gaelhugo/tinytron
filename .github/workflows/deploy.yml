@@ -22,10 +22,17 @@ jobs:
       - name: ⬇️ Checkout Repository
         uses: actions/checkout@v4
 
-      - name: ⬇️ Download Firmware Artifact
+      - name: ⬇️ Download Factory Firmware Artifact
         uses: actions/download-artifact@v4
         with:
-          name: firmware
+          name: firmware-factory
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+
+      - name: ⬇️ Download OTA Firmware Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: firmware-ota
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ github.event.workflow_run.id }}
 
@@ -50,7 +57,9 @@ jobs:
 
           # 3. Create firmware folder and copy files
           mkdir -p dist/firmware
-          cp ../firmware/firmware-factory.bin dist/firmware/firmware.bin
+          # Note: download-artifact creates a directory named after the artifact
+          cp ../firmware-factory/firmware-factory.bin dist/firmware/firmware.bin
+          cp ../firmware-ota/firmware.bin dist/firmware/firmware-ota.bin
           cp firmware/manifest.json dist/firmware/
 
           # 4. Compile README.md into dist/index.html
