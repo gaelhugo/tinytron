@@ -12,14 +12,14 @@ I sourced parts from Aliexpress and Amazon, and designed the case around them.
 
 ### Bill of Materials
 
-One of this project's goals is to keep the BOM as short as possible. Only 3 parts, and 6 easy solder joints are needed.
+One of this project's goals is to keep the BOM as short as possible. Only 3 parts, and 6 easy solder joints are needed. There is no audio amp nor speaker in this project.
 
 | Part | Notes | Link (non affiliated) |
 | -- | -- | -- |
-| Waveshare ESP32-S3-LCD-1.69 | This is the **non touch version**. The touch version has thicker glass and a different footprint. | [Amazon.fr](https://www.amazon.fr/dp/B0D9PTZ5DY), [Aliexpress](https://fr.aliexpress.com/item/1005009927444668.html)
-| 400 mAH LiPo battery | **Important:** the default connector is PH2.0 which isn't compatible with the Waveshare dev board. I spliced a [connector](https://www.amazon.fr/dp/B09TDCLZGB) but you can custom order the correct one (JST1.25mm) from the battery seller.<br><br>Dimensions: 6x25x30mm | [Aliexpress](https://fr.aliexpress.com/item/1005007103616809.html) |
+| Waveshare ESP32-S3-LCD-1.69 | This is the **non touch version**. The touch version has thicker glass and a different footprint. | [Amazon.fr](https://www.amazon.fr/dp/B0D9PTZ5DY), [Aliexpress](https://fr.aliexpress.com/item/1005009927444668.html) |
 | Micro SD card reader breakout board | The case was modeled after this exact board.<br><br>Dimensions: 18x18x20mm | [Amazon.fr](https://www.amazon.fr/dp/B0DRXBF5RW) |
-| Micro SD card | FAT32 formatted. Technically optional since the project can also stream video over local network. | |
+| 400 mAH LiPo battery | **Important:** the default connector is PH2.0 which isn't compatible with the Waveshare dev board. I spliced a [connector](https://www.amazon.fr/dp/B09TDCLZGB) but you can custom order the correct one (JST1.25mm) from the battery seller.<br><br>Technically optional it is possible to power the device via USB C connector.<br><br>Dimensions: 6x25x30mm | [Aliexpress](https://fr.aliexpress.com/item/1005007103616809.html) |
+| Micro SD card | FAT32 formatted. Also technically optional since the project can also stream video over local network. | |
 
 ### 3D printed case
 
@@ -28,7 +28,7 @@ The case is made of 4 parts: front, back, bezel and button. Glue is required to 
 ![Assembled parts](stl/cad.png)
 ![Exploded case](stl/exploded.png)
 
-#### Printing instructinos
+#### Printing instructions
 
 The case was only tested with Prusa MK4S and PLA. It prints with 0.28mm layers in about 30 minutes and 16 grams of material. I tried my best to limit the need for supports but paint-on supports are recommended in select spots for best results.
 
