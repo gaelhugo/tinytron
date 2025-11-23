@@ -40,7 +40,7 @@ void setup()
   prefs.onBrightnessChanged([](int brightness)
                             { display.setBrightness(brightness); });
   display.setBrightness(prefs.getBrightness());
-  display.drawOSD("ESP32 MiniTV", CENTER, STANDARD);
+  display.drawOSD("Tinytron", CENTER, STANDARD);
   display.drawOSD(TOSTRING(APP_VERSION) " " TOSTRING(APP_BUILD_NUMBER), BOTTOM_RIGHT, DEBUG);
   display.flushSprite();
   Serial.printf("Total heap: %d\n", ESP.getHeapSize());

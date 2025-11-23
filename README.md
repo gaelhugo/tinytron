@@ -1,12 +1,33 @@
-# ESP32-MiniTV
+# Tinytron 📺
 
 ⚠️ Work in progress ⚠️
 
-This project is a tiny video player designed specifically for the [ESP32-S3-LCD-1.69 from Waveshare](https://www.waveshare.com/wiki/ESP32-S3-LCD-1.69).
+## Overview
 
-It can play MJPEG AVI files from an SD card, or stream video content from a computer over WiFi and Websockets. It features a simple web interface for configuration and can be controlled with a single button.
+This project is a tiny video player designed specifically for the [ESP32-S3-LCD-1.69 from Waveshare](https://www.waveshare.com/wiki/ESP32-S3-LCD-1.69). 
 
-## Hardware
+It can play MJPEG AVI files from an SD card, or stream video content from a computer over WiFi. It features a simple web interface for configuration and can be controlled with a single physical button.
+
+### Easy weekend project
+
+Tinytron was designed with simplicity in mind:
+
+- Limited parts: only the dev board, sd card reader and battery, for a total cost of 30€ or less.
+- Minimal soldering: only a 6 pin header to solder.
+- Custom case: the 4 elements of the case print in 30 minutes on a Prusa MK4S.
+- Quick assembly: takes about 5 minutes.
+- No software to install: both flashing the firmware and converting video files can be done directly from this web page.
+
+Note: given these goals I chose not to support audio playback in this project.
+
+### Additional features
+
+- Simple control using a single physical button (single press to pause/resume playback, double press to next video, long press to turn on/off).
+- Battery voltage monitoring.
+- Web-based control panel for device management (WiFi settings, video streaming, battery voltage and various stats).
+- Over-the-Air (OTA) firmware updates.
+
+## ⚙️ Hardware
 
 I sourced parts from Aliexpress and Amazon, and designed the case around them.
 
@@ -83,17 +104,17 @@ Then wrap a bit of electrical tape around the male pins in order to create a mak
 
 **⚠️ Warning:** be very careful never to plug your home made connector the wrong way: you'd swap the Ground and 3v3 lines and and most likely damage the hardware.
 
-#### 3. Assemble the case
+#### 3. Assemble the case 📦
 
 *Coming soon.*
 
-## Flashing the firmware
+## ⚡ Flashing the firmware
 
 ### Web flasher
 
 You can the latest build directly from this page: simply connect your ESP32 to this computer over USB C, click the Connect button, and follow the instructions.
 
-<p class="mdOnly">Please visit the <a href="https://t0mg.github.io/esp32-minitv/#web-flasher">website</a> version of this documentation to see the Web Flasher button.</p>
+<p class="mdOnly">Please visit the <a href="https://t0mg.github.io/tinytron/#web-flasher">website</a> version of this documentation to see the Web Flasher button.</p>
 
 <p><esp-web-install-button manifest="firmware/manifest.json">
 </esp-web-install-button></p>
@@ -114,7 +135,7 @@ platformio run --target upload
 
 Once the initial firmware is flashed, you can perform subsequent updates over the air. Connect to the device over WiFi, go to the Firmware tab, select your ota firmware file and click "Upload Firmware".
 
-You can find a build of the latest OTA firmware [here](https://t0mg.github.io/esp32-minitv/firmware/firmware-ota.bin), or you can build it yourself as explained below.
+You can find a build of the latest OTA firmware [here](https://t0mg.github.io/tinytron/firmware/firmware-ota.bin), or you can build it yourself as explained below.
 
 #### Build the binary
 
@@ -124,21 +145,21 @@ platformio run
 
 Then, navigate to the device's web UI, go to the "Firmware" tab, and upload the `firmware.bin` file located in the `.pio/build/esp32-s3-devkitc-1/` directory of the project.
 
-## Preparing video files
+## 📼 Preparing video files
 
 You'll need a FAT32 formatted SD Card, and properly encoded video files (AVI MJPEG). Keep the file names short, and place the files at the root of the SD Card. They will play in alphabetical order.
 
 ### Transcoding
 
-You can use [this web page](https://t0mg.github.io/esp32-minitv/transcode.html) to convert video files in the expected format (max. output size 2Gb). It relies on [ffmpeg.wasm](https://github.com/ffmpegwasm/ffmpeg.wasm) for purely local, browser based conversion.
+You can use [this web page](https://t0mg.github.io/tinytron/transcode.html) to convert video files in the expected format (max. output size 2Gb). It relies on [ffmpeg.wasm](https://github.com/ffmpegwasm/ffmpeg.wasm) for purely local, browser based conversion.
 
 For much faster conversion, the `ffmpeg` command line tool is recommended. 
 
 *TODO: add detailed command line*
 
-## Credits and references
+## 🫰 Credits and references
 - This project is relying heavily on [esp32-tv by atomic14](https://github.com/atomic14/esp32-tv) and the related [blog](http://www.atomic14.com) and [videos](https://www.youtube.com/atomic14). Many thanks !
 - Another great source was [moononournation's MiniTV](https://github.com/moononournation/MiniTV).
 - The [Waveshare wiki page](https://www.waveshare.com/wiki/ESP32-S3-LCD-1.69) and provideed examples were extremyly useful.
 - The web UI uses the VCR OSD Mono font by Riciery Leal.
-- Github pages hosted [transcoder tool](https://t0mg.github.io/esp32-minitv/transcode.html) inspired by [this post](https://dannadori.medium.com/how-to-deploy-ffmpeg-wasm-application-to-github-pages-76d1ca143b17), uses [coi-serviceworker](https://github.com/gzuidhof/coi-serviceworker) to load [ffmpeg.wasm](https://github.com/ffmpegwasm/ffmpeg.wasm).
+- Github pages hosted [transcoder tool](https://t0mg.github.io/tinytron/transcode.html) inspired by [this post](https://dannadori.medium.com/how-to-deploy-ffmpeg-wasm-application-to-github-pages-76d1ca143b17), uses [coi-serviceworker](https://github.com/gzuidhof/coi-serviceworker) to load [ffmpeg.wasm](https://github.com/ffmpegwasm/ffmpeg.wasm).
