@@ -7,9 +7,51 @@
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#128250;</text></svg>">
   <title>ESP32-MiniTV</title>
+  <!-- https://github.com/xz/new.css -->
+  <link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css">
   <style>
+    body {
+      max-width: 1000px;
+    }
+
     .mdOnly {
       display: none;
+    }
+
+    .page {
+      display: grid;
+      grid-template-columns: 1fr 250px;
+      gap: 20px;
+    }
+
+    .sticky {
+      position: sticky;
+      top: 120px;
+    }
+
+    .anchor {
+      position: relative;
+    }
+
+    .header-link {
+      display: none;
+      right: 0;
+      position: absolute;
+      text-decoration: none;
+    }
+
+    h1:hover .header-link,
+    h2:hover .header-link,
+    h3:hover .header-link {
+      display: inline;
+    }
+
+    @media (max-width:750px) {
+      .page {
+        display: flex;
+        flex-direction: column-reverse;
+      }
     }
 
     /* Source: https://tholman.com/github-corners/ */
@@ -45,9 +87,6 @@
       }
     }
   </style>
-  <!-- https://github.com/xz/new.css -->
-  <link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css">
   <!-- <style>
     @import url("https://fonts.xz.style/serve/fira-code.css");
 
@@ -82,7 +121,14 @@
         fill="currentColor" class="octo-body" />
     </svg>
   </a>
-  {content}
+  <div class="page">
+    <div>
+      {content}
+    </div>
+    <div>
+      <div class="sticky">{toc}</div>
+    </div>
+  </div>
 </body>
 
 </html>

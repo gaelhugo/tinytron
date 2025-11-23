@@ -20,7 +20,7 @@ const renderer = {
     return `
             <h${depth}>
               <a name="${escapedText}" class="anchor" href="#${escapedText}">
-                <span class="header-link"></span>
+                <span class="header-link">🔗</span>
               </a>
               ${text}
             </h${depth}>`;
@@ -31,17 +31,56 @@ marked.use({ renderer });
 try {
     // 1. Read the Markdown content
     const markdown = fs.readFileSync(inputPath, 'utf8');
+
+    // 2. Generate TOC from headings
+    const tocHeadings = marked.lexer(markdown).filter(token => token.type === 'heading' && (token.depth === 2 || token.depth === 3));
+    const tocTree = [];
+    let currentH2 = null;
+
+    tocHeadings.forEach(token => {
+        const item = {
+            text: token.text,
+            slug: token.text.toLowerCase().replace(/[^\w]+/g, '-'),
+            children: []
+        };
+        if (token.depth === 2) {
+            currentH2 = item;
+            tocTree.push(currentH2);
+        } else if (token.depth === 3 && currentH2) {
+            currentH2.children.push(item);
+        }
+    });
+
+    function buildTocHtml(tree) {
+        if (!tree || tree.length === 0) {
+            return '';
+        }
+        let html = '<ul>';
+        tree.forEach(item => {
+            html += `<li><a href="#${item.slug}">${item.text}</a>`;
+            if (item.children.length > 0) {
+                html += buildTocHtml(item.children);
+            }
+            html += '</li>';
+        });
+        html += '</ul>';
+        return html;
+    }
+
+    const tocHtml = buildTocHtml(tocTree);
     
-    // 2. Convert to HTML
+    
+    // 3. Convert to HTML
     const htmlContent = marked(markdown);
 
-    // 3. Read the HTML template (for styling and structure)
+    // 4. Read the HTML template (for styling and structure)
     let template = fs.readFileSync(templatePath, 'utf8');
 
-    // 4. Insert the generated HTML into the template
-    const finalHtml = template.replace('{content}', htmlContent);
+    // 5. Insert the generated TOC and HTML into the template
+    let finalHtml = template.replace('{toc}', tocHtml);
+    finalHtml = finalHtml.replace('{content}', htmlContent);
 
-    // 5. Write the final HTML file to the dist folder
+    // 6. Write the final HTML file to the dist folder
     fs.writeFileSync(outputPath, finalHtml);
 
     console.log(`Successfully compiled ${inputPath} to ${outputPath}`);

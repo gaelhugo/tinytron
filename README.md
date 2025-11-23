@@ -39,7 +39,7 @@ The case was only tested with Prusa MK4S and PLA. It prints with 0.28mm layers i
 | Bezel | Flat side | None |
 | Button | Top side | None |
 
-### Assebly instructions
+### Assembly instructions
 
 Assembly only takes a few minutes. You'll need a bit of plastic glue or cyanoacrylate glue, a soldering iron, and flush cutter pliers.
 
