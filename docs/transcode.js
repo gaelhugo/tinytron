@@ -17,12 +17,16 @@ document.addEventListener('DOMContentLoaded', () => {
     transcodeStatus.scrollTop = transcodeStatus.scrollHeight;
   };
 
+  const lockUI = (isProcessing = true) => {
+      transcodeButton.disabled = isProcessing;
+      transcodeButton.style.display = isProcessing ? 'none' : '';
+      cancelButton.disabled = !isProcessing;
+      cancelButton.style.display = isProcessing ? '' : 'none';
+  }
+
   const loadFFmpeg = async () => {
     log('Loading ffmpeg-core.js...');
-    // Reset UI state
-    transcodeButton.disabled = true;
-    cancelButton.disabled = true;
-    cancelButton.style.display = 'none';
+    lockUI(false);
 
     ffmpeg = new FFmpeg();
 
@@ -44,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     await ffmpeg.load({ coreURL, wasmURL });
 
-    transcodeStatus.textContent = 'FFmpeg loaded. Ready.';
+    log('FFmpeg loaded. Ready.');
     transcodeButton.disabled = false;
   };
 
@@ -58,16 +62,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const file = transcodeVideoFile.files[0];
 
     // UI Updates
-    transcodeButton.disabled = true;
     transcodeVideoFile.disabled = true;
-    cancelButton.disabled = false;
-    cancelButton.style.display = 'inline';
-    transcodeProgress.style.display = 'block';
+    lockUI(true);
     transcodeProgress.value = 0;
+    transcodeProgress.style.display = 'block';
     downloadLink.style.display = 'none';
 
     try {
-      transcodeStatus.textContent = '\nDetecting source framerate...';
+      log('Detecting source framerate...');
       await ffmpeg.writeFile('input.mp4', new Uint8Array(await file.arrayBuffer()));
 
       // FIX 1: Use exec with array, and ignore the inevitable error
@@ -112,10 +114,8 @@ document.addEventListener('DOMContentLoaded', () => {
     } finally {
       // Cleanup UI
       transcodeVideoFile.disabled = false;
-      transcodeButton.disabled = false;
-      cancelButton.disabled = true;
-      cancelButton.style.display = 'none';
       transcodeProgress.style.display = 'none';
+      lockUI(false);
     }
   });
 
@@ -128,9 +128,6 @@ document.addEventListener('DOMContentLoaded', () => {
       // Clean up UI immediately
       transcodeProgress.style.display = 'none';
       transcodeVideoFile.disabled = false;
-      cancelButton.disabled = true;
-      cancelButton.style.display = 'none';
-
       // We must reload ffmpeg to use it again
       loadFFmpeg();
     }
