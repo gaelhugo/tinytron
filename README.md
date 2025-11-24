@@ -135,7 +135,7 @@ In case you need to reopen the case, look for the small notch (left side when fa
 
 ### Web flasher
 
-You can the latest build directly from this page: simply connect your ESP32 to this computer over USB C, click the Connect button, and follow the instructions.
+You can flash the latest build directly from this page: simply connect your ESP32 to this computer over USB C, click the Connect button, and follow the instructions.
 
 <p class="mdOnly">Please visit the <a href="https://t0mg.github.io/tinytron/#web-flasher">website</a> version of this documentation to see the Web Flasher button.</p>
 
