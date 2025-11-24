@@ -1,5 +1,5 @@
 <p class="mdOnly">
-# Tinytron 📺
+<h1>Tinytron 📺</h1>
 </p>
 
 ## 📋 Overview
