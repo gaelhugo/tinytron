@@ -126,6 +126,7 @@ Assembly is quick, but there are 4 points to be pay attention to:
 
 https://www.youtube.com/watch?v=-QKKTKMmSjw
 
+
 ✨ Congratulations, your Tinytron is ready! ✨
 
 #### Reopening the case
