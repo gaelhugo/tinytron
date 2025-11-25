@@ -109,7 +109,7 @@ void VideoPlayer::pause()
   }
   char batText[10];
   sprintf(batText, "Batt. %d%%", mBattery.getBatteryLevel());
-  mDisplay.drawOSD(batText, BOTTOM_RIGHT, OSDLevel::STANDARD);
+  drawOSDTimed(batText, TOP_RIGHT, OSDLevel::STANDARD);
   drawOSDTimed("Paused", CENTER, OSDLevel::STANDARD);
   mState = VideoPlayerState::PAUSED;
   mVideoSource->setState(VideoPlayerState::PAUSED);
@@ -154,7 +154,6 @@ void VideoPlayer::playStatic()
   playTask();
 }
 
-
 // double buffer the dma drawing otherwise we get corruption
 uint16_t *dmaBuffer[2] = {NULL, NULL};
 int dmaBufferIndex = 0;
@@ -193,36 +192,38 @@ void VideoPlayer::framePlayerTask()
   OSDLevel osdLevel = mPrefs.getOsdLevel();
   while (m_runTask)
   {
-    // handle timed OSD
-    if (_timedOsdActive && millis() >= _timedOsdEnd)
+    // handle timed OSDs
+    bool needsRedraw = false;
+    for (auto it = _timedOsds.begin(); it != _timedOsds.end();)
     {
-      _timedOsdActive = false;
-      if (mState == VideoPlayerState::PAUSED)
+      if (millis() >= it->endTime)
       {
-        redrawFrame();
-        mDisplay.drawOSD("Paused", CENTER, OSDLevel::STANDARD);
+        it = _timedOsds.erase(it);
+        needsRedraw = true;
       }
-      else if (mState == VideoPlayerState::STOPPED)
+      else
       {
-        mDisplay.fillSprite(DisplayColors::BLACK);
-        mDisplay.drawOSD("Stopped", CENTER, OSDLevel::STANDARD);
-        mDisplay.flushSprite();
+        ++it;
       }
+    }
+    if (needsRedraw)
+    {
+      redrawFrame();
     }
 
     if (mState == VideoPlayerState::STOPPED)
     {
-    //   // draw the paused OSD over the current frame
-    //   // drawOSDTimed("Paused", CENTER, OSDLevel::STANDARD);
-    //   // push the result to the screen
-    //   // mDisplay.flushSprite();
-    //   // now wait until we are un-paused
-    //   while (mState == VideoPlayerState::PAUSED)
-    //   {
-        vTaskDelay(50 / portTICK_PERIOD_MS);
-    //     if (!m_runTask)
-    //       break; // allow task to be stopped while paused
-    //   }
+      //   // draw the paused OSD over the current frame
+      //   // drawOSDTimed("Paused", CENTER, OSDLevel::STANDARD);
+      //   // push the result to the screen
+      //   // mDisplay.flushSprite();
+      //   // now wait until we are un-paused
+      //   while (mState == VideoPlayerState::PAUSED)
+      //   {
+      vTaskDelay(50 / portTICK_PERIOD_MS);
+      //     if (!m_runTask)
+      //       break; // allow task to be stopped while paused
+      //   }
       continue;
     }
     if (mState == VideoPlayerState::STATIC)
@@ -297,17 +298,20 @@ void VideoPlayer::framePlayerTask()
       char batText[16];
       sprintf(batText, "%d%% %.2f", mBattery.getBatteryLevel(), mBattery.getVoltage());
       mDisplay.drawOSD(batText, BOTTOM_LEFT, OSDLevel::DEBUG);
-      if (mBattery.isCharging()) {
-        mDisplay.drawOSD("Charging", TOP_RIGHT, OSDLevel::DEBUG);
-      }
     }
-    if (osdLevel >= OSDLevel::STANDARD && mBattery.isLowBattery())
+
+    if (mBattery.isCharging())
+    {
+      mDisplay.drawOSD("Charging", TOP_RIGHT, OSDLevel::DEBUG);
+    }
+    else if (mBattery.isLowBattery())
     {
       mDisplay.drawOSD("Low Batt.", TOP_RIGHT, OSDLevel::STANDARD);
     }
-    if (_timedOsdActive)
+
+    for (const auto &osd : _timedOsds)
     {
-      mDisplay.drawOSD(_timedOsdText.c_str(), _timedOsdPosition, _timedOsdLevel);
+      mDisplay.drawOSD(osd.text.c_str(), osd.position, osd.level);
     }
     mDisplay.flushSprite();
   }
@@ -327,11 +331,7 @@ void VideoPlayer::framePlayerTask()
 
 void VideoPlayer::drawOSDTimed(const char *text, OSDPosition position, OSDLevel level, uint32_t durationMs)
 {
-  _timedOsdText = text;
-  _timedOsdPosition = position;
-  _timedOsdLevel = level;
-  _timedOsdEnd = millis() + durationMs;
-  _timedOsdActive = true;
+  _timedOsds.push_back({text, position, level, millis() + durationMs});
   // immediately draw the OSD
   mDisplay.drawOSD(text, position, level);
 }

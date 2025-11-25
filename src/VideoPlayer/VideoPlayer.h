@@ -13,6 +13,14 @@ class Display;
 class Prefs;
 class VideoSource;
 
+struct TimedOsd
+{
+  String text;
+  OSDPosition position;
+  OSDLevel level;
+  uint32_t endTime;
+};
+
 class VideoPlayer {
   private:
     int mChannelVisible = 0;
@@ -37,11 +45,7 @@ class VideoPlayer {
     void drawOSD(int fps);
 
     // timed OSD
-    String _timedOsdText;
-    uint32_t _timedOsdEnd = 0;
-    OSDLevel _timedOsdLevel;
-    OSDPosition _timedOsdPosition;
-    bool _timedOsdActive = false;
+    std::list<TimedOsd> _timedOsds;
 
     // current frame data - for redraw
     uint8_t *_currentFrame = NULL;
