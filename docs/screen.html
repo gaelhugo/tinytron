@@ -37,18 +37,20 @@
 
   <p>Because the ESP32 on the Tinytron is only capable of insecure WebSocket connections, and this page uses https, your
     browser will (rightfully) block them from talking to each other. For this page to work, you will need to enable the
-    following flag in Chrome to allow an insecure WebSocket connection just for your Tinytron:
-    <code>chrome://flags/#unsafely-treat-insecure-origin-as-secure</code>.
+    <em>Insecure origins treated as secure</em> flag in Chrome to allow your browser to make an insecure WebSocket
+    connection to your Tinytron. If you don't understand what this means, or are uncomfortable with it, please don't
+    proceed further.
   </p>
 
   <ol>
-    <li><a href="chrome://flags/#unsafely-treat-insecure-origin-as-secure">Open Chrome flags</a></li>
-    <li>Add the IP address of the device, prefixed with <code>ws://</code>, e.g. <code>ws://192.168.1.123</code>.
-    <li>Enable the flag.</li>
-    <li>Restart Chrome and come back to this page.</li>
+    <li>Open a new tab then enter <code>chrome://flags/#unsafely-treat-insecure-origin-as-secure</code> in the address
+      bar.</li>
+    <li>Add the IP address of the device, prefixed with <code>ws://</code>, e.g. <code>ws://192.168.1.123</code>.</li>
+    <li>Enable the flag via the dropdown menu next to it.</li>
+    <li>Restart Chrome and return to this page.</li>
   </ol>
 
-  <p>Lastly, please enter the IP address of your device below (same one you set in the Chrome flag). This page cannot
+  <p>Please enter the IP address of your device below (same one you set in the Chrome flag). This page cannot
     auto-detect it.</p>
 
   <fieldset>
