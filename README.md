@@ -250,6 +250,9 @@ The web interface allows you to:
 - When the battery is low, a warning appears both in the Web interface and on the display.
 - The device charges over USB C. It currently cannot be turned off while charging.
 
+## 🧪 Experimental features
+- [Live stream a computer screen to Tinytron](https://t0mg.github.io/tinytron/screen.html) : This quick proof of concept page requires a desktop computer running Chrome and a few extra steps to enable insecure WebSocket connections. Also, this is currently much less stable than video file streaming for some reason, expect crashes.
+
 ## 🫰 Credits and references
 - Tinytron is relying heavily on [esp32-tv by atomic14](https://github.com/atomic14/esp32-tv) and the related [blog](http://www.atomic14.com) and [videos](https://www.youtube.com/atomic14). Many thanks !
 - Another great source was [moononournation's MiniTV](https://github.com/moononournation/MiniTV).

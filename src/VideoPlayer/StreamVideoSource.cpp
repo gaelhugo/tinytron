@@ -2,11 +2,14 @@
 #include <Arduino.h>
 #include <ESPAsyncWebServer.h>
 
+const int MIN_FRAME_INTERVAL_MS = 1000 / 30; // approx 30fps
+
 StreamVideoSource::StreamVideoSource(AsyncWebServer *server) : mServer(server)
 {
   mWebSocket = new AsyncWebSocket("/ws");
   mServer->addHandler(mWebSocket);
   mWebSocket->onEvent([this](AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len) {
+    mLastReadyTime = 0;
     onWsEvent(server, client, type, arg, data, len);
   });
 }
@@ -42,13 +45,18 @@ bool StreamVideoSource::getVideoFrame(uint8_t **buffer, size_t &bufferLength, si
     free(receivedJpeg.jpeg_data);
 
     // Send "ready"
-    if (xSemaphoreTake(streamingSemaphore, portMAX_DELAY) == pdTRUE)
+    uint32_t now = millis();
+    if (now - mLastReadyTime > MIN_FRAME_INTERVAL_MS)
     {
-      if (mStreamState == StreamState::STREAMING)
+      if (xSemaphoreTake(streamingSemaphore, portMAX_DELAY) == pdTRUE)
       {
-        mWebSocket->textAll("ready");
+        if (mStreamState == StreamState::STREAMING)
+        {
+          mWebSocket->textAll("ready");
+          mLastReadyTime = now;
+        }
+        xSemaphoreGive(streamingSemaphore);
       }
-      xSemaphoreGive(streamingSemaphore);
     }
   }
   // unlock the image buffer

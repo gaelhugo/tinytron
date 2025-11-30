@@ -33,7 +33,7 @@ startButton.onclick = async () => {
         fpsDisplay.textContent = fps === null ? '-' : `${fps}`;
       },
       (frameSize) => {
-        frameSizeDisplay.textContent = frameSize === null ? '-' : `${frameSize}`;
+        frameSizeDisplay.textContent = frameSize === null ? '-' : `${(frameSize/1000).toFixed(1)} kB`;
       }
     );
 

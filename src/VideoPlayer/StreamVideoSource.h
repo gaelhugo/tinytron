@@ -31,6 +31,7 @@ class StreamVideoSource: public VideoSource {
     SemaphoreHandle_t streamingSemaphore = NULL;
     QueueHandle_t jpegQueue = NULL;
     size_t mCurrentWsFrameLength = 0;
+    uint32_t mLastReadyTime = 0;
 
     // static void _frameDownloaderTask(void *arg);
     // void frameDownloaderTask();
