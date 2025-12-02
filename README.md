@@ -8,6 +8,10 @@ It can play MJPEG files from a microSD card, or stream video content from a comp
 
 <p class="flex"><img src="assets/tinytron.gif" title="Playing from SD card (WING IT! by Blender Studio, CC BY 4.0)"><img src="assets/side.jpg" style="max-height:320px" title="Close up mqcro shot, side view"></p>
 
+<p class="mdOnly">Watch a demo video on YouTube:</p>
+
+https://www.youtube.com/watch?v=IA2hCkSuGbk
+
 ### Project goals
 
 There are plenty of great ESP32 TV projects around ([credits](#-credits-and-references) name a few). Tinytron is my attempt at standing on their shoulders to make one that's very easy to build and use:
