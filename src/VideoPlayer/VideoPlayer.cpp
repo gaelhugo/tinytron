@@ -107,8 +107,8 @@ void VideoPlayer::pause()
   {
     return;
   }
-  char batText[10];
-  sprintf(batText, "Batt. %d%%", mBattery.getBatteryLevel());
+  char batText[12];
+  sprintf(batText, mBattery.isCharging() ? "Chrg %d%%" : "Batt. %d%%", mBattery.getBatteryLevel());
   drawOSDTimed(std::string(batText), TOP_RIGHT, OSDLevel::STANDARD);
   drawOSDTimed(std::string("Paused"), CENTER, OSDLevel::STANDARD);
   mState = VideoPlayerState::PAUSED;
@@ -329,7 +329,7 @@ void VideoPlayer::framePlayerTask()
   vTaskDelete(NULL);
 }
 
-void VideoPlayer::drawOSDTimed(const std::string& text, OSDPosition position, OSDLevel level, uint32_t durationMs)
+void VideoPlayer::drawOSDTimed(const std::string &text, OSDPosition position, OSDLevel level, uint32_t durationMs)
 {
   _timedOsds.push_back({text, position, level, millis() + durationMs});
   // immediately draw the OSD

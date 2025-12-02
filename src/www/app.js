@@ -30,8 +30,15 @@ const screenStreamOptions = document.getElementById('screenStreamOptions');
 const fileStreamOptions = document.getElementById('fileStreamOptions');
 const selectScreenButton = document.getElementById('selectScreenButton');
 
+let lastSsid = '';
 let apMode = false;
 let streamer;
+let batteryInterval = null;
+
+function showSplashScreen(innerHTML) {
+  splashscreen.innerHTML = innerHTML;
+  splashscreen.style.display = 'flex';
+}
 
 // Fetch all settings from the server
 async function fetchSettings() {
@@ -39,7 +46,7 @@ async function fetchSettings() {
   await fetch('/settings')
     .then(response => response.json())
     .then(settings => {
-      ssidInput.value = settings.ssid;
+      ssidInput.value = lastSsid = settings.ssid;
       brightnessSlider.value = settings.brightness;
       osdLevelSelect.value = settings.osdLevel;
       timerMinutesSlider.value = settings.timerMinutes;
@@ -68,6 +75,23 @@ settingsForm.addEventListener('submit', (event) => {
     timerMinutes: parseInt(timerMinutesSlider.value)
   };
 
+  const networkUpdated = (settings.ssid !== lastSsid || settings.pass.length > 0);
+  if (networkUpdated) {
+    let networkMessage = `<h2>Network settings changed</h2>
+    <p>The device will restart after saving the settings.</p>`;
+    if (apMode) {
+      clearInterval(batteryInterval);
+      networkMessage += `
+      <p>If successful, the "Tinytron" wifi network will disappear and the device will
+      will show "WiFi Connected" alonside its new IP address.</p>
+      <p>You can then reconnect via your home network (${settings.ssid}) and access the 
+      device\'s new IP.</p>`;
+    }
+    networkMessage += `<p>Please wait about 20 seconds for the device to restart.
+    If the connection fails, the device will revert to Access Point mode so you
+    can connect to the "Tinytron" wifi network and try again.</p>`;
+    showSplashScreen(networkMessage);
+  }
   fetch('/settings', {
     method: 'POST',
     headers: {
@@ -77,8 +101,11 @@ settingsForm.addEventListener('submit', (event) => {
   }).then(() => {
     alert('Settings saved!');
   }).catch(error => {
-    console.error('Error saving settings:', error);
-    alert('Failed to save settings.');
+    if (!networkUpdated) {
+      // Only show error if network settings were not updated to avoid conusion
+      console.error('Error saving settings:', error);
+      alert('Failed to save settings.');
+    }
   });
 });
 
@@ -271,7 +298,7 @@ window.onload = async () => {
   const success = await fetchSettings();
   if (success) {
     fetchBatteryStatus();
-    setInterval(fetchBatteryStatus, 10000);
+    batteryInterval = setInterval(fetchBatteryStatus, 10000);
   }
   if (!success || apMode) {
     streamingTabLabel.style.display = 'none';
