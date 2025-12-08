@@ -1,5 +1,9 @@
 <p class="mdOnly"><h1>Tinytron 📺</h1></p>
 
+<p class="mdOnly">Watch a demo video on YouTube:</p>
+
+https://www.youtube.com/watch?v=HspYfg55T3A
+
 ## 📋 Overview
 
 Tinytron is an ESP32 powered video player with a 1.69 inch display, designed specifically around the [ESP32-S3-LCD-1.69 from Waveshare](https://www.waveshare.com/wiki/ESP32-S3-LCD-1.69). 
@@ -7,10 +11,6 @@ Tinytron is an ESP32 powered video player with a 1.69 inch display, designed spe
 It can play MJPEG files from a microSD card, or stream video content from a computer over WiFi. It runs on battery, features a web interface with Wifi access point mode for configuration, and can be controlled with a single physical button.
 
 <p class="flex"><img src="assets/tinytron.gif" title="Playing from SD card (WING IT! by Blender Studio, CC BY 4.0)"><img src="assets/side.jpg" style="max-height:320px" title="Close up mqcro shot, side view"></p>
-
-<p class="mdOnly">Watch a demo video on YouTube:</p>
-
-https://www.youtube.com/watch?v=HspYfg55T3A
 
 ### Project goals
 
