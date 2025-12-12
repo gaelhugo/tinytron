@@ -22,7 +22,7 @@ There are plenty of great ESP32 TV projects around ([credits](#-credits-and-refe
 - Quick assembly: snap fits together, takes about 5 minutes.
 - No software to install: both [flashing](#web-flasher) the firmware and [converting video files](https://t0mg.github.io/tinytron/transcode.html) can be done directly from a web browser.
 
-Note: with these goals in mind, I chose not to support audio playback in this project.
+**Note:** with these goals in mind, I chose not to support audio playback in this project.
 
 ### Additional features
 
@@ -79,9 +79,11 @@ Solder the 6 pin header to the SD breakout board. Trim the pins underneath.
 
 The ESP32 dev board comes with a cable that breaks out some IO. We need to cut some of the wires to save room, and use the rest to connect the SD card reader.
 
+**Note:** alternatively, you can make it a **non-destructive mod** by pulling the crimped end of the cables out of the connector instead of cutting them. This takes more time, and requires a pointy pin (for example sharp tweezers) and some patience, but it's possible.
+
 Separate the lines that we'll keep from the ones we'll cut according to the table below, triple check everything and cut the unused wires flush against the connector. You can change the suggested wiring if you update the `platformio.ini` file accordingly, but these are the default.
 
-| Keep | Description | Cut |
+| Keep | Description | Cut/Remove |
 | -- | -- | -- |
 | <span style="color:white;background:black">&nbsp;Black&nbsp;</span> | GPIO18 | |
 | <span style="color:white;background:red">&nbsp;Red&nbsp;</span> | GPIO17 | | GPIO17 | |
